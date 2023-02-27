@@ -19,45 +19,45 @@ const routes = [
   {
     path: "/genres",
     component: IndexGenres,
-    exact : true
+    exact: true,
   },
   {
     path: "/genres/create",
-    component: CreateGenre
+    component: CreateGenre,
   },
   {
     path: "/genres/edit/:id",
-    component: EditGenre
+    component: EditGenre,
   },
 
   //Actors
   {
     path: "/actors",
     component: IndexActors,
-    exact : true
+    exact: true,
   },
   {
     path: "/actors/create",
-    component: CreateActor
+    component: CreateActor,
   },
   {
     path: "/actors/edit/:id",
-    component: EditActor
+    component: EditActor,
   },
 
   //Movie Theaters
   {
     path: "/movietheaters",
     component: IndexMovieTheaters,
-    exact : true
+    exact: true,
   },
   {
     path: "/movietheaters/create",
-    component: CreateMovieTheaters
+    component: CreateMovieTheaters,
   },
   {
     path: "/movietheaters/edit/:id",
-    component: EditMovieTheater
+    component: EditMovieTheater,
   },
   //Movie CRUD
   {
@@ -66,29 +66,29 @@ const routes = [
   },
   {
     path: "/movies/edit/:id",
-    component: EditMovie
+    component: EditMovie,
   },
   {
     path: "/movies/filter",
-    component: FilterMovies
+    component: FilterMovies,
   },
   //Movie Details
   {
     path: "/movie/:id",
-    component: MovieDetails
+    component: MovieDetails,
   },
 
   //Main Route
   {
     path: "/",
     component: LandingPage,
-    exact: true
+    exact: true,
   },
   //Catch All parameter
   {
-    path:'*',
-    component: RedirectToLandingPage
-  }
+    path: "*",
+    component: RedirectToLandingPage,
+  },
 ];
 
 export default routes;
