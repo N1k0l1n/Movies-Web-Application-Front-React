@@ -1,37 +1,29 @@
+import axios, { AxiosResponse } from "axios";
 import React, { ReactElement, useState } from "react";
-import { Typeahead } from "react-bootstrap-typeahead";
+import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { actorMovieDTO } from "../actors/actors.model";
+import { urlActors } from "../endpoints";
 
 export default function TypeAheadActors(props: typeAheadActorsProps) {
-  const actors: actorMovieDTO[] = [
-    {
-      id: 1,
-      name: "Tom",
-      character: "",
-      picture:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Tom_Cruise_by_Gage_Skidmore_2.jpg/220px-Tom_Cruise_by_Gage_Skidmore_2.jpg",
-    },
-    {
-      id: 2,
-      name: "Ben",
-      character: "",
-      picture:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ben_Affleck_by_Gage_Skidmore_3.jpg/220px-Ben_Affleck_by_Gage_Skidmore_3.jpg",
-    },
-    {
-      id: 3,
-      name: "Nicolas",
-      character: "",
-      picture:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Nicolas_Cage_Deauville_2013.jpg/220px-Nicolas_Cage_Deauville_2013.jpg",
-    },
-  ];
+  const [options, setOptions] = useState<actorMovieDTO[]>([]);
+  const [loading, setIsLoading] = useState(false);
 
   const selected: actorMovieDTO[] = [];
 
   const [draggedElement, setDraggedElement] = useState<
     actorMovieDTO | undefined
   >(undefined);
+
+  function handleSearch(query: string) {
+    setIsLoading(true);
+
+    axios
+      .get(`${urlActors}/searchByName/${query}`)
+      .then((response: AxiosResponse<actorMovieDTO[]>) => {
+        setOptions(response.data);
+        setIsLoading(false);
+      });
+  }
 
   function handleDragStart(actor: actorMovieDTO) {
     setDraggedElement(actor);
@@ -41,10 +33,12 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
     if (!draggedElement) {
       return;
     }
+
     if (actor.id !== draggedElement.id) {
       const draggedElementIndex = props.actors.findIndex(
         (x) => x.id === draggedElement.id
       );
+
       const actorIndex = props.actors.findIndex((x) => x.id === actor.id);
 
       const actors = [...props.actors];
@@ -57,35 +51,44 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
   return (
     <div className="mb-3">
       <label>{props.displayName}</label>
-      <Typeahead
+      <AsyncTypeahead
         id="typeahead"
         onChange={(actors) => {
-          // if (props.actors.findIndex(x => x.id === actors[0].id) === -1) {
-          //   props.onAdd([...props.actors, actors[0]]);
-          // }
           console.log(actors);
+          const actor = actors[0] as actorMovieDTO;
+          const index = props.actors.findIndex((x) => x.id === actor.id);
+          if (index != -1) {
+            const a = props.actors[index];
+            a.character = "";
+            props.onAdd([...props.actors, a]);
+          }
         }}
-        options={actors}
-        // labelKey={actor => actor.name}
-        filterBy={["name"]}
+        options={options}
+        labelKey="name"
+        filterBy={() => true}
+        isLoading={loading}
+        onSearch={handleSearch}
         placeholder="Write the name of the actor..."
-        minLength={1}
+        minLength={2}
         flip={true}
         selected={selected}
-        renderMenuItemChildren={(actor) => (
-          <>
-            {/* <img
-              alt="actor"
-              src={actor.picture}
-              style={{
-                height: "64px",
-                marginRight: "10px",
-                width: "64px",
-              }}
-            /> */}
-            <span>{"test"}</span>
-          </>
-        )}
+        renderMenuItemChildren={(actor) => {
+          const a = actor as actorMovieDTO;
+          return (
+            <>
+              <img
+                alt="actor picture"
+                src={a.picture}
+                style={{
+                  height: "64px",
+                  marginRight: "10px",
+                  width: "64px",
+                }}
+              />
+              <span>{a.name}</span>
+            </>
+          );
+        }}
       />
       <ul className="list-group">
         {props.actors.map((actor) => (
@@ -100,10 +103,10 @@ export default function TypeAheadActors(props: typeAheadActorsProps) {
             <span
               className="badge badge-primary badge-pill pointer text-dark"
               style={{ marginLeft: "0.5rem" }}
-              onClick={() => {
-                console.log("test"); /** props.onRemove(actor)*/
-              }}
-            ></span>
+              //  onClick={() => props.onRemove(actor)}
+            >
+              X
+            </span>
           </li>
         ))}
       </ul>
@@ -117,4 +120,18 @@ interface typeAheadActorsProps {
   onAdd(actors: actorMovieDTO[]): void;
   onRemove(actor: actorMovieDTO[]): void;
   listUI(actor: actorMovieDTO): ReactElement;
+}
+{
+  /* <>
+<img
+  alt="actor picture"
+  // src={actor.picture}
+  style={{
+    height: "64px",
+    marginRight: "10px",
+    width: "64px",
+  }}
+/>
+<span>{actor}</span>
+</> */
 }

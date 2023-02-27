@@ -15,11 +15,13 @@ import { genreDTO } from "../genres/genres.model";
 import { movieTheaterDTO } from "../movietheaters/movieTheater.model";
 import TypeAheadActors from "../forms/TypeAheadActors";
 import { actorMovieDTO } from "../actors/actors.model";
+import MarkdownField from "../forms/MarkdownField";
 
 export default function MovieForm(props: movieFormProps) {
   const [selectedGenres, setSelectedGenres] = useState(
     mapToModel(props.selectedGenres)
   );
+
   const [nonSelectedGenres, setnonSelectedGenres] = useState(
     mapToModel(props.nonSelectedGenres)
   );
@@ -68,6 +70,8 @@ export default function MovieForm(props: movieFormProps) {
             imageURL={props.model.posterURL}
           />
 
+          <MarkdownField displayName="Summary" field="summary" />
+
           <MultipleSelector
             displayName="Genres"
             nonSelected={nonSelectedGenres}
@@ -95,8 +99,8 @@ export default function MovieForm(props: movieFormProps) {
               setSelectedActors(actors);
             }}
             onRemove={(actor) => {
-              // const actors = selectedActors.filter(x => x.id !== actor);
-              // setSelectedActors(actors);
+              //  const actors = selectedActors.filter(x => x !== actor);
+              // setSelectedActors(actor);
             }}
             listUI={(actor: actorMovieDTO) => (
               <>
