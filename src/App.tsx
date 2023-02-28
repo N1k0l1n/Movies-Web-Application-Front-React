@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
+import { claim } from "./auth/auth.models";
+import AuthenticationContext from "./auth/AuthenticationContext";
 import Menu from "./Menu";
 import routes from "./route-config";
 import configureValidations from "./Validation";
@@ -7,8 +10,14 @@ import configureValidations from "./Validation";
 configureValidations();
 
 function App() {
+
+  const [claims, setClaims] = useState<claim[]>([]);
+
   return (
     <BrowserRouter>
+    <AuthenticationContext.Provider value={{claims, update: setClaims}}>
+
+   
       <Menu />
       <div className="container">
         <Switch>
@@ -24,6 +33,7 @@ function App() {
           React Movies {new Date().getFullYear().toString()}
         </div>
       </footer>
+      </AuthenticationContext.Provider>
     </BrowserRouter>
   );
 }

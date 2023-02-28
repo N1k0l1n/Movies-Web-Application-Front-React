@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Authorized from "./auth/Authorized";
 
 export default function Menu() {
   return (
@@ -15,26 +16,34 @@ export default function Menu() {
                 Genres
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/movies/filter">
-                Filter Movies
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/actors">
-                Actors
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/movietheaters">
-                Movie Theaters
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/movies/create">
-                Create a Movie
-              </NavLink>
-            </li>
+
+            <Authorized
+            role="admin"
+              authorized={
+                <>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/movies/filter">
+                      Filter Movies
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/actors">
+                      Actors
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/movietheaters">
+                      Movie Theaters
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/movies/create">
+                      Create a Movie
+                    </NavLink>
+                  </li>
+                </>
+              }
+            />
           </ul>
         </div>
       </div>
