@@ -10,29 +10,39 @@ import configureValidations from "./Validation";
 configureValidations();
 
 function App() {
-
   const [claims, setClaims] = useState<claim[]>([]);
+
+  //Verify Role
+  function isAdmin() {
+    return (
+      claims.findIndex(
+        (claim) => claim.name === "role" && claim.value === "admin"
+      ) > -1
+    );
+  }
 
   return (
     <BrowserRouter>
-    <AuthenticationContext.Provider value={{claims, update: setClaims}}>
-
-   
-      <Menu />
-      <div className="container">
-        <Switch>
-          {routes.map((route) => (
-            <Route key={route.path} path={route.path} exact={route.exact}>
-              <route.component />
-            </Route>
-          ))}
-        </Switch>
-      </div>
-      <footer className="bd-footer py-5 mt-5 bg-light">
+      <AuthenticationContext.Provider value={{ claims, update: setClaims }}>
+        <Menu />
         <div className="container">
-          React Movies {new Date().getFullYear().toString()}
+          <Switch>
+            {routes.map((route) => (
+              <Route key={route.path} path={route.path} exact={route.exact}>
+                {route.isAdmin && !isAdmin() ? (
+                  <>You are not allowed to see this Page</>
+                ) : (
+                  <route.component />
+                )}
+              </Route>
+            ))}
+          </Switch>
         </div>
-      </footer>
+        <footer className="bd-footer py-5 mt-5 bg-light">
+          <div className="container">
+            React Movies {new Date().getFullYear().toString()}
+          </div>
+        </footer>
       </AuthenticationContext.Provider>
     </BrowserRouter>
   );

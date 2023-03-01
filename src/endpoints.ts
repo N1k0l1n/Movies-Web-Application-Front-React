@@ -7,3 +7,5 @@ export const urlActors = `https://localhost:7040/api/Actor`;
 export const urlMovieTheaters = `https://localhost:7040/api/MovieTheaters`;
 
 export const urlMovies = `https://localhost:7040/api/Movies`;
+
+export const urlAccounts = `https://localhost:7040/api/Accounts`;

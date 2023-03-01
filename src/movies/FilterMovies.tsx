@@ -54,8 +54,6 @@ export default function FilterMovies() {
       initialValues.page = parseInt(query.get("page")!, 10);
     }
 
-    console.log(initialValues);
-
     searchMovies(initialValues);
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -68,7 +66,6 @@ export default function FilterMovies() {
         const records = parseInt(response.headers["totalamountofrecords"], 10);
         setTotalAmountOfPages(Math.ceil(records / values.recordsPerPage));
         setMovies(response.data);
-        console.log(response.data);
       });
   }
 
@@ -170,7 +167,6 @@ export default function FilterMovies() {
                   <Button
                     className="btn btn-danger ms-3"
                     onClick={() => {
-                      console.log(initialValues);
                       formikProps.setValues(initialValues);
                       searchMovies(initialValues);
                     }}
