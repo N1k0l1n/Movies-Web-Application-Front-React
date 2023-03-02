@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { claim } from "./auth/auth.models";
 import AuthenticationContext from "./auth/AuthenticationContext";
+import { getClaims } from "./auth/handleJWT";
 import Menu from "./Menu";
 import routes from "./route-config";
 import configureValidations from "./Validation";
@@ -11,6 +12,10 @@ configureValidations();
 
 function App() {
   const [claims, setClaims] = useState<claim[]>([]);
+
+  useEffect(() =>{
+    setClaims(getClaims());
+  }, [])
 
   //Verify Role
   function isAdmin() {
