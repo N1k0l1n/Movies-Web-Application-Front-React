@@ -6,9 +6,11 @@ import AuthenticationContext from "./auth/AuthenticationContext";
 import { getClaims } from "./auth/handleJWT";
 import Menu from "./Menu";
 import routes from "./route-config";
+import { configureInterceptor } from "./utils/httpInterceptors";
 import configureValidations from "./Validation";
 
 configureValidations();
+configureInterceptor();
 
 function App() {
   const [claims, setClaims] = useState<claim[]>([]);

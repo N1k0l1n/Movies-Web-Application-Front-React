@@ -36,3 +36,8 @@ export function logout(){
     localStorage.removeItem(tokenKey);
     localStorage.removeItem(expirationKey);
 }
+
+//Return the token
+export function getToken(){
+    return localStorage.getItem(tokenKey);
+}

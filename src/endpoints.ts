@@ -9,3 +9,5 @@ export const urlMovieTheaters = `https://localhost:7040/api/MovieTheaters`;
 export const urlMovies = `https://localhost:7040/api/Movies`;
 
 export const urlAccounts = `https://localhost:7040/api/Accounts`;
+
+export const urlRatings = `https://localhost:7040/api/Ratings`;
